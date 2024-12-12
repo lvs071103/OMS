@@ -1,0 +1,33 @@
+name: "oms"
+mode: "dev"
+port: 8000
+version: "v1.0"
+start_time: "2024-09-03"
+machine_id: 1
+
+auth:
+  jwt_expire: 8760
+
+log:
+  level: "debug"
+  filename: "oms.log"
+  max_size: 200
+  max_age: 30
+  max_backups: 7
+
+mysql:
+  host: "10.1.32.152"
+  port: 3306
+  user: "root"
+  password: "H9NHb2iDepWKEKT0F+dYJknXf2M="
+  dbname: "oms"
+  max_open_conns: 200
+  max_idle_conns: 50
+  auto_migration: true
+
+redis:
+  host: "10.1.32.151"
+  port: 6379
+  password: "Aa111111"
+  db: 0
+  pool_size: 100

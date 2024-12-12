@@ -1,0 +1,187 @@
+definitions:
+  models.CreateJenkinsInstanceRequest:
+    properties:
+      address:
+        type: string
+      auth_type:
+        type: boolean
+      desc:
+        type: string
+      env_id:
+        type: integer
+      id:
+        type: integer
+      name:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - address
+    - env_id
+    - name
+    type: object
+  models.RespAuthGroup:
+    properties:
+      desc:
+        type: string
+      id:
+        type: string
+      label:
+        type: string
+      name:
+        type: string
+      nick_name:
+        type: string
+      permissions:
+        items:
+          $ref: '#/definitions/models.RespPermission'
+        type: array
+    type: object
+  models.RespJenkinsInstances:
+    properties:
+      description:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      url:
+        type: string
+      user_name:
+        type: string
+    type: object
+  models.RespJenkinsInstancesList:
+    properties:
+      instances:
+        items:
+          $ref: '#/definitions/models.RespJenkinsInstances'
+        type: array
+      total:
+        type: integer
+    type: object
+  models.RespModelContentType:
+    properties:
+      app_label:
+        type: string
+      id:
+        type: string
+      model:
+        type: string
+    type: object
+  models.RespPermission:
+    properties:
+      codename:
+        type: string
+      content_type_id:
+        type: string
+      content_types:
+        $ref: '#/definitions/models.RespModelContentType'
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /api/v1/app/release/jenkins/add:
+    post:
+      consumes:
+      - application/json
+      description: 添加Jenkins实例
+      parameters:
+      - description: Bearer 用户令牌
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 添加Jenkins实例
+        in: body
+        name: release
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateJenkinsInstanceRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"status": "ok"}'
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: '{"error": "invalid param"}'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: '{"error": "internal server error"}'
+          schema:
+            additionalProperties: true
+            type: object
+      summary: 添加Jenkins实例
+      tags:
+      - 添加Jenkins实例
+  /api/v1/app/release/jenkins/list:
+    get:
+      consumes:
+      - application/json
+      description: Jenkins实例列表接口
+      parameters:
+      - description: Bearer 用户令牌
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 页码
+        in: query
+        name: page
+        type: integer
+      - description: 每页数据条数
+        in: query
+        name: page_size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.RespJenkinsInstancesList'
+      summary: Jenkins实例列表接口
+      tags:
+      - Jenkins实例列表接口
+  /api/v1/group/list:
+    get:
+      consumes:
+      - application/json
+      description: 展示用户组列表接口
+      parameters:
+      - description: Bearer 用户令牌
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 页码
+        in: query
+        name: page
+        type: integer
+      - description: 每页数据条数
+        in: query
+        name: page_size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.RespAuthGroup'
+      summary: 用户组列表接口
+      tags:
+      - 用户组列表接口
+swagger: "2.0"

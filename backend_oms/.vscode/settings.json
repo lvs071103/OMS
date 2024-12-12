@@ -1,0 +1,50 @@
+{
+    "terminal.integrated.fontSize": 14,
+    "editor.fontSize": 14,
+    "editor.letterSpacing": 0.4,
+    "editor.smoothScrolling": true,
+    "editor.tabSize": 4,
+    "breadcrumbs.enabled": true,
+    "editor.cursorBlinking": "phase",
+    // "editor.fontFamily": "Menlo, Monaco, 'Courier New', monospace",
+    "editor.fontFamily": "'JetBrainsMono Nerd Font'",
+    "editor.fontLigatures": true,
+    // 编写 Go 代码的推荐行长
+    "editor.rulers": [120],
+    // "editor.fontFamily": "'DejaVu Sans Mono for Powerline'",
+    "terminal.integrated.fontFamily": "monospace",
+    "window.zoomLevel": 0.8,
+    "[json]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "github.copilot.editor.enableAutoCompletions": true,
+    "go.toolsManagement.autoUpdate": true,
+    "python.createEnvironment.trigger": "off",
+    "github.copilot.enable": {
+        "*": false,
+        "plaintext": false,
+        "markdown": false,
+        "scminput": false,
+        "go": true
+    },
+    "go.formatTool": "gofmt",
+    "editor.formatOnSave": true,
+    "[go]": {
+        "editor.defaultFormatter": "golang.go",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "always"
+        }
+    },
+    "gopls": {
+        "usePlaceholders": true,
+        "completeUnimported": true,
+        "staticcheck": true
+    },
+    "go.lintTool": "golangci-lint",
+    "go.lintFlags": [
+        "--fast"
+    ],
+    "editor.codeLens": true,
+    "diffEditor.codeLens": true
+}
