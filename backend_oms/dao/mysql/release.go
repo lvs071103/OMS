@@ -2,6 +2,7 @@ package mysql
 
 import (
 	"errors"
+	"fmt"
 
 	"github.com/oms/models"
 	"github.com/oms/pkg/snowflake"
@@ -59,5 +60,48 @@ func JenkinsInstanceAdd(req *models.CreateJenkinsInstanceRequest) (err error) {
 		req.Password,
 		req.Desc)
 
+	return
+}
+
+func JenkinsInstanceDetail(id int64) (data *models.RespJenkinsInstanceDetail, err error) {
+	// 实例化结构体
+	data = new(models.RespJenkinsInstanceDetail)
+	sql := `SELECT a.id, a.name, a.env_id, a.address, a.auth_type,
+	a.username, a.password, a.desc, b.name AS "env_name"
+	FROM oms_jenkins_instances a 
+	LEFT JOIN oms_env_configs b ON a.env_id = b.id 
+	WHERE a.id = ?`
+	err = db.Get(data, sql, id)
+	if err != nil {
+		zap.L().Error("query oms_jenkins_instances failed", zap.Error(err))
+		return nil, err
+	}
+
+	return
+}
+
+func JenkinsInstanceUpdate(id int64, req *models.CreateJenkinsInstanceRequest) (err error) {
+	// EnvID, err := strconv.ParseInt(req.EnvID, 10, 64)
+	if err != nil {
+		zap.L().Error("strconv.ParseInt failed", zap.Error(err))
+		return
+	}
+	fmt.Println("id", id, "req", req)
+	sql := "UPDATE oms_jenkins_instances " +
+		"SET `env_id`=?, `name`=?, `address`=?, `auth_type`=?, `username`=?, `password`=?, `desc`=? " +
+		"WHERE id=?"
+	_, err = db.Exec(sql,
+		req.EnvID,
+		req.Name,
+		req.Address,
+		req.AuthType,
+		req.UserName,
+		req.Password,
+		req.Desc,
+		id)
+	if err != nil {
+		zap.L().Error("update oms_jenkins_instances failed", zap.Error(err))
+		return
+	}
 	return
 }

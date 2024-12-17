@@ -65,11 +65,15 @@ export default function InstancesForm (props) {
       console.log(res)
       const { data } = res.data
       console.log(data)
-      setEnvs(data.envs)
+      getEnvs()
       // 回填数据至表单
       formRef.current.setFieldsValue({
         name: data?.name,
-        label: data?.label,
+        address: data?.address,
+        env_id: data?.env_id,
+        auth_type: data?.auth_type === 1 ? 'Auth' : 'Token',
+        username: data?.username,
+        password: data?.password,
         desc: data?.desc,
       })
     }

@@ -4,7 +4,6 @@ import (
 	"crypto/md5"
 	"database/sql"
 	"encoding/hex"
-	"fmt"
 	"time"
 
 	"github.com/oms/models"
@@ -75,7 +74,6 @@ func encryptPassword(password string) string {
 
 func UpdateLastLogin(user *models.ResponseUser) (err error) {
 	user.LastLogin = time.Now()
-	fmt.Println(user.LastLogin)
 	sql := `update auth_users set last_login = ? where username = ?`
 	_, err = db.Exec(sql, user.LastLogin, user.UserName)
 	return

@@ -99,6 +99,8 @@ type RespOmsEnvList struct {
 type RespJenkinsInstances struct {
 	ID       string `db:"id" json:"id"`
 	Name     string `db:"name" json:"name"`
+	EnvID    int64  `db:"env_id" json:"env_id"`
+	EnvName  string `db:"env_name" json:"env_name"`
 	Address  string `db:"address" json:"address"`
 	AuthType bool   `db:"auth_type" json:"auth_type"`
 	Desc     string `db:"desc" json:"desc"`
@@ -108,4 +110,17 @@ type RespJenkinsInstances struct {
 type RespJenkinsInstancesList struct {
 	Total     int64                  `json:"total"`
 	Instances []RespJenkinsInstances `json:"instances"`
+}
+
+// RespJenkinsInstanceDetail jenkins实例详情响应
+type RespJenkinsInstanceDetail struct {
+	ID       string `db:"id" json:"id"`
+	Name     string `db:"name" json:"name"`
+	EnvID    string `db:"env_id" json:"env_id"`
+	Address  string `db:"address" json:"address"`
+	AuthType bool   `db:"auth_type" json:"auth_type"`
+	UserName string `db:"username" json:"username"`
+	Password string `db:"password" json:"password"`
+	Desc     string `db:"desc" json:"desc"`
+	EnvName  string `db:"env_name" json:"env_name"`
 }

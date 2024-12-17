@@ -41,3 +41,26 @@ func JenkinsInstanceAdd(req *models.CreateJenkinsInstanceRequest) (err error) {
 	}
 	return
 }
+
+// JenkinsInstanceDetail - Jenkins实例详情
+func JenkinsInstanceDetail(id int64) (data *models.RespJenkinsInstanceDetail, err error) {
+	// 查询Jenkins实例详情
+	data, err = mysql.JenkinsInstanceDetail(id)
+	if err != nil {
+		zap.L().Error("logic JenkinsInstanceDetail failed", zap.Error(err))
+		return
+	}
+
+	return data, nil
+}
+
+// JenkinsInstanceUpdate - 更新Jenkins实例
+func JenkinsInstanceUpdate(id int64, req *models.CreateJenkinsInstanceRequest) (err error) {
+	// 更新Jenkins实例
+	err = mysql.JenkinsInstanceUpdate(id, req)
+	if err != nil {
+		zap.L().Error("logic JenkinsInstanceUpdate failed", zap.Error(err))
+		return
+	}
+	return
+}

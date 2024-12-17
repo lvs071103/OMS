@@ -72,9 +72,7 @@ export default function InstancesTable () {
   // 刷新一下列表
   const flushPage = async () => {
     const res = await http.get(`/v1/app/release/jenkins/list`, { params })
-    const { data } = res
-    // 刷新当前页面
-    // window.location.reload()
+    const { data } = res.data
     setInstances({
       list: data?.instances,
       count: data?.total,
