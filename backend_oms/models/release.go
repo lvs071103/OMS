@@ -3,7 +3,7 @@ package models
 import "time"
 
 // OmsJenkinsJobs - jenkins任务定义
-type OmsJenkinsJobs struct {
+type ReleaseJobs struct {
 	ID         int64  `gorm:"column:id;primaryKey;type:bigint(20);not null"`
 	Name       string `gorm:"column:name;type:varchar(150);unique;not null"`
 	DeployName string `gorm:"column:deploy_name;type:varchar(150);not null"`
@@ -11,7 +11,14 @@ type OmsJenkinsJobs struct {
 	Desc       string `gorm:"column:desc;type:text"`
 }
 
-type OmsJenkinsJobsBuild struct {
+// ReleaseUsersJobs - 用户任务关联
+type ReleaseUserJob struct {
+	ID     int64 `gorm:"column:id;primaryKey;type:bigint(20);not null"`
+	JobId  int64 `gorm:"column:job_id;type:bigint(20);not null"`
+	UserId int64 `gorm:"column:user_id;type:bigint(20);not null"`
+}
+
+type ReleasePipeline struct {
 	ID           int64     `gorm:"column:id;primaryKey;type:bigint(20);not null"`
 	JobId        int64     `gorm:"column:job_id;type:bigint(20);not null"`
 	BuildId      int64     `gorm:"column:build_id;type:bigint(20);not null"`

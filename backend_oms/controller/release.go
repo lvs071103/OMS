@@ -130,3 +130,55 @@ func JenkinsInstanceUpdateHandler(ctx *gin.Context) {
 	}
 	ctx.JSON(http.StatusOK, gin.H{"message": "success"})
 }
+
+// JenkinsInstanceDeleteHandler Jenkins实例删除接口
+// @Summary Jenkins实例删除接口
+// @Description Jenkins实例删除接口
+// @Tags Jenkins实例删除接口
+// @Accept application/json
+// @Produce application/json
+// @Param Authorization header string true "
+// @Param id path int true "Jenkins实例ID"
+// @Success 200 {object} map[string]interface{} "{"status": "ok"}"
+// @Router /api/v1/app/release/jenkins/{id} [delete]
+func JenkinsInstanceDeleteHandler(ctx *gin.Context) {
+	instanceID := ctx.Param("id")
+	// 将字符串转换为int64
+	id, err := strconv.ParseInt(instanceID, 10, 64)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	// 删除Jenkins实例
+	err = logic.JenkinsInstanceDelete(id)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	ctx.JSON(http.StatusOK, gin.H{"message": "success"})
+}
+
+// ReleaseJobsListHandler 发布任务列表接口
+// @Summary 发布任务列表接口
+// @Description 发布任务列表接口
+// @Tags 发布任务列表接口
+// @Accept application/json
+// @Produce application/json
+// @Param Authorization header string true "
+// @Param page query int false "页码"
+// @Param page_size query int false "每页数据条数"
+// @Success 200 {object} models.RespReleaseJobsList
+// @Router /api/v1/app/release/job/list [get]
+func ReleaseJobsListHandler(ctx *gin.Context) {
+	// 解析参数
+	page, pageSize := PaginationHander(ctx)
+	// 获取列表
+	data, err := logic.ReleaseJobsList(page, pageSize)
+	if err != nil {
+		ctx.JSON(http.StatusOK, gin.H{"error": err.Error()})
+		return
+	}
+
+	ctx.JSONP(http.StatusOK, gin.H{"data": data, "message": "success"})
+}

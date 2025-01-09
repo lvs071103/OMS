@@ -19,6 +19,8 @@ func Makemigrations() {
 		&models.AuthUserPermissions{},
 		&models.OmsEnvConfig{},
 		&models.OmsJenkinsInstances{},
+		&models.ReleaseJobs{},
+		&models.ReleaseUserJob{},
 	)
 	if err != nil {
 		zap.L().Error("生成数据库表结构失败", zap.Error(err))

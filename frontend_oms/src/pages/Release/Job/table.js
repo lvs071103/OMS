@@ -17,21 +17,21 @@ import {
   DeleteOutlined,
   UnorderedListOutlined
 } from '@ant-design/icons'
-import EnvForm from './form'
+// import EnvForm from './form'
 import { useStore } from '@/store'
 import { http } from '@/tools/http'
-import Detail from './details'
+import Detail from './detail'
 
 const { Search } = Input
 
-export default function InstancesTable () {
+export default function JabTable () {
   const { userStore } = useStore()
   const isSuperuser = userStore?.userInfo?.is_superuser
   const [title, setTitle] = useState('')
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const [open, setOpen] = useState(false)
-  const [instances, setInstances] = useState({
+  const [jobs, setJobs] = useState({
     list: [], //组列表
     count: 0 // 组数量
   })
@@ -50,9 +50,9 @@ export default function InstancesTable () {
 
   // 搜索
   const onSearch = async (q) => {
-    const res = await http.get(`/v1/app/release/jenkins/list?q=${q}`)
+    const res = await http.get(`/v1/app/release/job/list?q=${q}`)
     const { data } = res.data
-    setInstances({
+    setJobs({
       list: data,
       count: data.length,
     })
@@ -71,10 +71,10 @@ export default function InstancesTable () {
 
   // 刷新一下列表
   const flushPage = async () => {
-    const res = await http.get(`/v1/app/release/jenkins/list`, { params })
+    const res = await http.get(`/v1/app/release/job/list`, { params })
     const { data } = res.data
-    setInstances({
-      list: data?.instances,
+    setJobs({
+      list: data?.jobs,
       count: data?.total,
     })
   }
@@ -113,7 +113,7 @@ export default function InstancesTable () {
 
   // 删除
   const delRecord = async (data, page) => {
-    const resp = await http.delete(`/v1/app/release/jenkins/${data.id}`)
+    const resp = await http.delete(`/v1/app/release/job/${data.id}`)
     if (resp.status === 200) {
       message.success('删除成功')
     } else {
@@ -140,10 +140,11 @@ export default function InstancesTable () {
   // 当params发生变化时，显示刷新数据
   useEffect(() => {
     const loadList = async () => {
-      const res = await http.get(`/v1/app/release/jenkins/list`, { params })
+      const res = await http.get(`/v1/app/release/job/list`, { params })
       const { data } = res.data
-      setInstances({
-        list: data?.instances,
+      console.log(data)
+      setJobs({
+        list: data?.jobs,
         count: data?.total
       })
     }
@@ -251,7 +252,7 @@ export default function InstancesTable () {
           <Search id='groupSearch' placeholder="input search text" onSearch={onSearch} enterButton />
         }
       >
-        <Modal
+        {/* <Modal
           title={title}
           open={isModalOpen}
           onOk={handleOk}
@@ -266,11 +267,11 @@ export default function InstancesTable () {
             id={title === '编辑' ? cursor.id : null}
             timestamp={new Date().getTime()}
           />
-        </Modal>
+        </Modal> */}
         <Table
           rowKey={record => record.id}
           columns={columns}
-          dataSource={instances.list}
+          dataSource={jobs.list}
           rowSelection={rowSelection}
           scroll={{ x: 'max-content' }}
           bordered
@@ -278,7 +279,7 @@ export default function InstancesTable () {
             {
               defaultCurrent: params.page,
               pageSize: params.pageSize,
-              total: instances.count,
+              total: jobs.count,
               onChange: pageChange,
               className: "pagination",
             }

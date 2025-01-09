@@ -124,3 +124,18 @@ type RespJenkinsInstanceDetail struct {
 	Desc     string `db:"desc" json:"desc"`
 	EnvName  string `db:"env_name" json:"env_name"`
 }
+
+// RespReleaseJobs 发布任务响应
+type RespReleaseJobs struct {
+	ID         int64  `db:"id" json:"id"`
+	Name       string `db:"name" json:"name"`
+	DeployName string `db:"deploy_name" json:"deploy_name"`
+	ServceName string `db:"servce_name" json:"servce_name"`
+	Desc       string `db:"desc" json:"desc"`
+}
+
+// RespReleaseJobsList 发布任务列表响应
+type RespReleaseJobsList struct {
+	Total int64             `json:"total"`
+	Jobs  []RespReleaseJobs `json:"jobs"`
+}

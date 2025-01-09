@@ -35,8 +35,8 @@ const items = [
   ]),
   getItem('应用发布', 'sub2', <CodeOutlined />, [
     getItem(<Link to={'/v1/release/summary'}>概要</Link>, '/v1/release/summary'),
-    getItem(<Link to={'/v1/job/list'}>任务管理</Link>, '/v1/job/list'),
-    getItem(<Link to={'/v1/queue/list'}>发布管理</Link>, '/v1/queue/list'),
+    getItem(<Link to={'/v1/app/release/job/list'}>任务管理</Link>, '/v1/app/release/job/list'),
+    getItem(<Link to={'/v1/app/release/queue/list'}>发布管理</Link>, '/v1/app/release/queue/list'),
     getItem(<Link to={'/v1/app/release/jenkins/list'}>应用接入</Link>, '/v1/app/release/jenkins/list'),
   ]),
   getItem('系统设置', 'sub3', <SettingOutlined />, [

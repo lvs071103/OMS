@@ -64,3 +64,33 @@ func JenkinsInstanceUpdate(id int64, req *models.CreateJenkinsInstanceRequest) (
 	}
 	return
 }
+
+// JenkinsInstanceDelete - 删除Jenkins实例
+func JenkinsInstanceDelete(id int64) (err error) {
+	// 删除Jenkins实例
+	err = mysql.JenkinsInstanceDelete(id)
+	if err != nil {
+		zap.L().Error("logic JenkinsInstanceDelete failed", zap.Error(err))
+		return
+	}
+	return
+}
+
+// Release Jobs List
+func ReleaseJobsList(page, pageSize int64) (data *models.RespReleaseJobsList, err error) {
+	// 查询发布任务列表
+	data, err = mysql.ReleaseJobsList(page, pageSize)
+	if err != nil {
+		zap.L().Error("logic ReleaseJobsList failed", zap.Error(err))
+		return
+	}
+
+	// 统计发布任务数量
+	total, err := mysql.ReleaseJobsCount()
+	if err != nil {
+		return nil, err
+	}
+	data.Total = total
+
+	return
+}

@@ -72,6 +72,12 @@ func SetupRoute(mode string) *gin.Engine {
 		v1.POST("/app/release/jenkins/add", controller.JenkinsInstanceAddHandler)
 		v1.GET("/app/release/jenkins/:id", controller.JenkinsInstanceDetailHandler)
 		v1.POST("/app/release/jenkins/:id", controller.JenkinsInstanceUpdateHandler)
+		v1.DELETE("/app/release/jenkins/:id", controller.JenkinsInstanceDeleteHandler)
+		// release job
+		v1.GET("/app/release/job/list", controller.ReleaseJobsListHandler)
+
+		// 服务器管理
+		v1.GET("/sys/config/server/list", controller.ServerListHandler)
 	}
 
 	r.NoRoute(func(c *gin.Context) {

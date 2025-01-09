@@ -2,7 +2,6 @@ package mysql
 
 import (
 	"errors"
-	"fmt"
 
 	"github.com/oms/models"
 	"github.com/oms/pkg/snowflake"
@@ -81,12 +80,6 @@ func JenkinsInstanceDetail(id int64) (data *models.RespJenkinsInstanceDetail, er
 }
 
 func JenkinsInstanceUpdate(id int64, req *models.CreateJenkinsInstanceRequest) (err error) {
-	// EnvID, err := strconv.ParseInt(req.EnvID, 10, 64)
-	if err != nil {
-		zap.L().Error("strconv.ParseInt failed", zap.Error(err))
-		return
-	}
-	fmt.Println("id", id, "req", req)
 	sql := "UPDATE oms_jenkins_instances " +
 		"SET `env_id`=?, `name`=?, `address`=?, `auth_type`=?, `username`=?, `password`=?, `desc`=? " +
 		"WHERE id=?"
@@ -103,5 +96,40 @@ func JenkinsInstanceUpdate(id int64, req *models.CreateJenkinsInstanceRequest) (
 		zap.L().Error("update oms_jenkins_instances failed", zap.Error(err))
 		return
 	}
+	return
+}
+
+func JenkinsInstanceDelete(id int64) (err error) {
+	sql := "DELETE FROM oms_jenkins_instances WHERE id = ?"
+	_, err = db.Exec(sql, id)
+	if err != nil {
+		zap.L().Error("delete oms_jenkins_instances failed", zap.Error(err))
+		return
+	}
+	return
+}
+
+// ReleaseJobsCount - 发布任务总数
+func ReleaseJobsCount() (total int64, err error) {
+	total_sql := `SELECT count(0) FROM release_jobs`
+	err = db.Get(&total, total_sql)
+	if err != nil {
+		zap.L().Error("db.Get failed", zap.Error(err))
+		return 0, err
+	}
+	return
+}
+
+// ReleaseJobsList - 发布任务列表
+func ReleaseJobsList(page, pageSize int64) (data *models.RespReleaseJobsList, err error) {
+	// 实例化结构体
+	data = new(models.RespReleaseJobsList)
+	sql := "SELECT `id`, `name`, `deploy_name`, `servce_name`, `desc` FROM release_jobs LIMIT ?, ?"
+	err = db.Select(&data.Jobs, sql, (page-1)*pageSize, pageSize)
+	if err != nil {
+		zap.L().Error("query release_jobs failed", zap.Error(err))
+		return nil, err
+	}
+
 	return
 }

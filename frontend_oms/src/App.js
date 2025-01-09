@@ -14,6 +14,8 @@ const EnvApp = lazy(() => import('@/pages/Sys/Envs'))
 const SignUp = lazy(() => import('@/pages/Auth/SignUp'))
 const ReleaseSummary = lazy(() => import('@/pages/Release/index'))
 const JeninsInstances = lazy(() => import('@/pages/Release/Jenins/index'))
+const Jobs = lazy(() => import('@/pages/Release/Job/index'))
+const Queue = lazy(() => import('@/pages/Release/Queue/index'))
 
 function App () {
   return (
@@ -47,6 +49,8 @@ function App () {
             <Route path='/v1/release/summary' element={<ReleaseSummary />}></Route>
             <Route path='/v1/sys/config/env/list' element={<EnvApp />}></Route>
             <Route path='/v1/app/release/jenkins/list' element={<JeninsInstances />}></Route>
+            <Route path='/v1/app/release/job/list' element={<Jobs />}></Route>
+            <Route path='/v1/app/release/queue/list' element={<Queue />}></Route>
           </Route>
           <Route path='/login/' element={<Login />}></Route>
         </Routes>
